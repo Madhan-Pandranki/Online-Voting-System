@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="../CSS/admin_dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div id="navbar" class="item">
+            <%- include('./partials/header.ejs',{adminjson}) %>
+        </div>
+        <div id="menu" class="item">
+            <%- include('./partials/sidebar.ejs',{adminjson}) %>
+        </div>
+
+        <div id="midbody" class="item">
+            <div id="positions">
+                <h1 style="text-align: center;">No of Positions : <br><b style="font-size: 50px"><%=positions_size%></b></h1>
+            </div>
+            <div id="candidates">
+                <h1 style="text-align: center;">No of Candidates : <br><b style="font-size: 50px"><%= candidates_size %></b></h1>
+            </div>
+            <div id="voters">
+                <h1 style="text-align: center;">No of Voters : <br><b style="font-size: 50px"><%= voters_size %></b></h1>
+            </div>
+            <!-- <div id="resultPie">
+                <h1 style="text-align: center;">Pie Chart</h1>
+            </div>
+            <div id="resultGraph">
+                <h1 style="text-align: center;">Graph</h1>
+            </div>
+            <div id="feedback">
+                <h1 style="text-align: center;">Feedback forms</h1>
+            </div> -->
+        </div>
+        <!-- <div id="footer" class="item">
+            
+        </div>  -->
+
+    </div>
+
+</body>
+
+</html>

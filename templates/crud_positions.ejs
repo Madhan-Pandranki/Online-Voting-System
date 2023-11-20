@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../CSS/crud_positions.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div id="navbar" class="item">
+            <%- include('./partials/header.ejs',{adminjson}) %>
+        </div>
+        <div id="menu" class="item">
+            <%- include('./partials/sidebar.ejs',{adminjson}) %>
+        </div>
+
+        <div id="midbody" class="item">
+            <h1 style="text-align: center;">Positions</h1>
+            <div id="addpos">
+                <div>
+                    <a href="/add_position/<%= adminjson._id %>">+ New Position</a>
+                </div>
+            </div>
+
+            <table id="customers">
+                <tr>
+                    <th>ID</th>
+                    <th>Position</th>
+                    <th>Info</th>
+                    <th>Actions</th>
+                </tr>
+                <%positions.forEach((i)=>{%>
+                <tr>
+                    <td><%=i._id%></td>
+                    <td><%=i.Position%></td>
+                    <td><%=i.Info%></td>
+                    <td style="display: flex;justify-content: center;">
+                        <a href="/edit_position/<%= i._id %>" style="border: 1px solid black;border-radius: 0.3rem; color: white;background-color: green; margin-right: 0.3rem; ">Edit</a>
+                        <form action="/edit_position/<%= i._id %>?_method=DELETE" method="POST">
+                            <button type="submit" style="font-size: 1rem; color: white;background-color: red; border: 1px solid black;border-radius: 0.3rem;padding: 0px 0.1rem;cursor: pointer;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <%})%>
+                <!-- More rows for other records -->
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

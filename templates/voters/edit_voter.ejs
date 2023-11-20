@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../CSS/crud_positions.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="navbar" class="item">
+            <%- include('../partials/header.ejs',{adminjson,v}) %>
+        </div>
+        <div id="menu" class="item">
+            <%- include('../partials/sidebar.ejs',{adminjson,v}) %>
+        </div>
+
+        <div id="midbody" class="item">
+            <form action="/edit_voter/<%= v._id %>?_method=PUT" method="post" class="form">
+                <div class="addposform">
+                    <label for="name"><b>Name</b></label>
+                    <input type="name" name="name" id="" value="<%= v.name %>" required>
+                </div>
+                <div class="addposform">
+                    <label for="Email"><b>Email</b></label>
+                    <input type="Email" name="Email" id="" value="<%= v.Email %>" readonly> 
+                </div>
+                <div class="addposform">
+                    <label for="Password"><b>Password</b></label>
+                    <input type="password" name="password" id="" value="<%= v.password %>" required>                    
+                </div>
+                <div class="addposform">
+                    <label for="Mobile_no"><b>Mobile Number</b></label>
+                    <input type="Mobile_no" name="Mobile_no" id="" value="<%= v.Mobile_no %>" readonly>    
+                </div>
+
+                <div class="addposform">
+                    <label for="Address"><b>Address</b></label>
+                    <input type="Address" name="Address" id="" value="<%= v.Address %>" required>                    
+                </div>
+
+                <div class="addposform">
+                    <a href="/crud_voters/<%= adminjson._id %>">
+                        <button type="submit" class="addposbtn"><b>Confirm Changes</b></button>
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

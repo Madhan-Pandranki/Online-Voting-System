@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="../CSS/voter_dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/helpers.esm.min.js"></script> -->
+    
+
+</head>
+
+<body>
+    <div class="container">
+        <div id="navbar" class="item">
+            <%- include('./partials/voter_header.ejs',{voter}) %>
+        </div>
+
+        <div id="menu" class="item">
+            <%- include('./partials/voter_sidebar.ejs',{voter}) %>
+        </div>
+
+        <div id="midbody" class="item">
+            <h1 style="text-align: center;">Results Graphs</h1>
+            <!-- <div>
+              <%#= xValues %>
+              <%#= yValues %>
+              <canvas id="myChart" height="400px" width="500px"></canvas>
+            </div> -->
+            <%distinctpos.forEach((i)=>{%>
+              <div id="graphs">
+                <!-- <h3>Position : <%#= i %></h3> -->
+                <% let c = results.filter(j=>{ return j.Position === i; })%>
+                <% var xValues = c.map(i=>i.Party) %>
+                <% xVal = JSON.stringify(xValues) %>
+                <%# console.log(xValues) %>
+                <% var yValues = c.map(i=>i.Count) %>
+                <% yVal = JSON.stringify(yValues) %>
+                <%# console.log(yValues) %>
+                  <!-- <div>
+                    <canvas id="myChart" height="400px" width="500px"></canvas>
+                  </div> -->
+              <script>
+                // console.log("hello")
+                
+                  document.addEventListener("DOMContentLoaded", function(){
+                      var xValues = <%- xVal %>;
+                      var yValues = <%- yVal %>;
+                      const canvas = document.createElement('canvas');
+                      document.getElementById('graphs').appendChild(canvas);
+                      // console.log(xValues)
+                      // console.log(yValues)
+                      // var barColors = ["red", "green","blue"];
+                      // var c = document.getElementById('myChart').getContext('2d');
+                      // const chartcont = myChartcanvas.getContext('2d');
+                      
+                      var myChart = new Chart(canvas, {
+                        type: "bar",
+                        data: {
+                          labels: xValues,
+                          datasets: [{
+                            label : "No of Votes",
+                            data: yValues,
+                            backgroundColor: "#15616d",
+                            borderColor : "black",
+                            
+                          }]
+                        },
+                        options: {
+                          maintainAspectRatio : false,
+                          responsive : false,
+                          plugins: {
+                            title: {
+                              display: true,
+                              text: 'Position : <%- i %>'
+                            }
+                          },
+                          scales: {
+                            x: {
+                              title: {
+                                // barPercentage : 20,
+                                display: true,
+                                text: 'Party'
+                              }
+                            },
+                            y: {
+                              title: {
+                                // barPercentage : 20,
+                                display: true,
+                                text: 'No of Votes'
+                              }
+                            }
+                          }
+                        }
+                      });
+                  })
+          
+              </script>
+              </div>
+          <%})%>
+        </div>
+    </div>
+
+</body>
+
+</html>

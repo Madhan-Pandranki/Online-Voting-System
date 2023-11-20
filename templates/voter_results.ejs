@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="../CSS/voter_dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div id="navbar" class="item">
+            <%- include('./partials/voter_header.ejs',{voter}) %>
+        </div>
+
+        <div id="menu" class="item">
+            <%- include('./partials/voter_sidebar.ejs',{voter}) %>
+        </div>
+
+        <div id="midbody" class="item">
+            <h1 style="text-align: center;">Results</h1>
+
+            <table id="customers">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Party</th>
+                    <th>Count</th>
+                </tr>
+
+                <%results.forEach((i)=>{%>
+                <tr>
+                    <td><%= i._id %></td>
+                    <td><%= i.Name %></td>
+                    <td><%= i.Position %></td>
+                    <td><%= i.Party %></td>
+                    <td><%= i.Count %></td>
+                </tr>
+                <%})%>
+        </div>
+    </div>
+
+</body>
+
+</html>

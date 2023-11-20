@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../CSS/crud_positions.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div id="navbar" class="item">
+            <%- include('./partials/header.ejs',{adminjson,results}) %>
+        </div>
+        <div id="menu" class="item">
+            <%- include('./partials/sidebar.ejs',{adminjson,results}) %>
+        </div>
+
+        <div id="midbody" class="item">
+            <h1 style="text-align: center;">Results</h1>
+
+            <table id="customers">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Party</th>
+                    <th>Count</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+
+                <%results.forEach((i)=>{%>
+                    <form action="/results/<%= i._id %>?_method=PUT" method="post">
+                        <tr id="res">
+                            <td><%= i._id %></td>
+                            <td><%= i.Name %></td>
+                            <td><%= i.Position %></td>
+                            <td><%= i.Party %></td>
+                            <td><%= i.Count %></td>
+                            <td><%= i.ResultSend %></td>
+                            <td style="display: flex;justify-content: center;">
+                                <a href="/results/<%= adminjson._id %>">
+                                    <button type="submit" style="font-size: medium; border: 1px solid black;border-radius: 0.3rem; color: white;background-color: green;">Send / Unsend</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </form>
+                <%})%>
+                <!-- More rows for other records -->
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>
