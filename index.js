@@ -6,6 +6,27 @@ const session = require("express-session");
 const app = express();
 var adminjson;
 
+
+// //Cryptography for password protection
+const bcrypt = require("bcrypt");
+
+// const crypto = require("crypto");
+// const algo = "aes-256-cbc";
+// const inVec = crypto.randomBytes(16);
+// const msg = "hello";
+// const secKey = crypto.randomBytes(32);
+// //Encryption of message
+// const cipherText = crypto.createCipheriv(algo, secKey, inVec);
+// let encryptedText = cipherText.update(msg, "utf-8", "hex");
+// encryptedText += cipherText.final("hex");
+// console.log(msg);
+// console.log(encryptedText);
+// //Decryption of message
+// const decipherText = crypto.createDecipheriv(algo, secKey, inVec);
+// let decryptedText = decipherText.update(encryptedText, "hex", "utf-8");
+// decryptedText += decipherText.final("utf-8");
+// console.log(decryptedText);
+
 //Connect Database
 require('./db');
 const Signup = require("./models/signup");
@@ -321,16 +342,27 @@ app.post("/signup", async (req,res)=>{
         const check = await Signup.findOne({Email : req.body.Email} || {Mobile_no : req.body.Mobile_no})
         if(!check)
         {
+            // const pwd = req.body.password;
+            // //Encryption of message
+            // const cipherpwd = crypto.createCipheriv(algo, secKey, inVec);
+            // // cipherpwd.setAutoPadding(false);
+            // let encryptedpwd = cipherpwd.update(pwd, "utf-8", "hex");
+            // encryptedpwd += cipherpwd.final("hex");
+            // console.log(pwd);
+            // console.log(encryptedpwd + typeof(encryptedpwd));
+            let updatedpassword = await bcrypt.hash(req.body.password,10);
             const data = new Signup({
                 name : req.body.name,
                 Email : req.body.Email,
-                password : req.body.password,
+                // password : encryptedpwd,
+                // password : req.body.password,
+                password : updatedpassword,
                 Mobile_no : req.body.Mobile_no,
                 Address : req.body.Address
             });
     
             const signedup = await data.save();
-            res.status(201).render('login');
+            res.status(201).redirect('/login');
         }
         else{
             // res.send("Email/Mobile Number already exists!!");
@@ -343,24 +375,40 @@ app.post("/signup", async (req,res)=>{
 });
 
 //check for login credentials in database
+async function checkpwd (password, userpassword) {
+    // console.log(password);
+    // console.log(userpassword);
+    let isEqual = await bcrypt.compare(password,userpassword);
+    // console.log(isEqual);
+    return isEqual;
+}
 app.post("/login", async (req,res)=>{
     try {
         const admin = await Signup.findOne({Email : "qwerty@gmail.com"});
         const check = await Signup.findOne({Email : req.body.Email});
         if(check)
         {
+            // const encryptedpwd = check.password;
+            
+            //     console.log(encryptedpwd);
+            //     //Decryption of message
+            //     const decipherpwd = crypto.createDecipheriv(algo, secKey, inVec);
+            //     // decipherpwd.setAutoPadding(false);
+            //     let decryptedpwd = decipherpwd.update(encryptedpwd, "hex", "utf-8");
+            //     decryptedpwd += decipherpwd.final("utf-8");
+            //     console.log(decryptedpwd);
+            
             if(check.Email == admin.Email && admin.password == req.body.password)
             {
                 // res.send("Admin Dashboard");
                 adminjson = admin;
                 res.redirect(`/admin_dashboard/${adminjson._id}`);
             }
-            else if(check.password == req.body.password)
+            else if(await checkpwd(req.body.password,check.password))
             {
                 // res.send("Voter Dashboard");
                 res.redirect(`/voter_dashboard/${check._id}`);
-            }
-    
+            }   
             else{
                 // res.status(400).send("Wrong Credentials");
                 await req.flash("info", "Wrong Credentials!! Try Again");
@@ -512,10 +560,11 @@ app.post("/add_voter/:id", async (req,res)=>{
         const check = await Signup.findOne({Email : req.body.Email} || {Mobile_no : req.body.Mobile_no})
         if(!check)
         {
+            let updatedpassword = await bcrypt.hash(req.body.password,10);
             const data = new Signup({
                 name : req.body.name,
                 Email : req.body.Email,
-                password : req.body.password,
+                password : updatedpassword,
                 Mobile_no : req.body.Mobile_no,
                 Address : req.body.Address
             });
@@ -568,5 +617,3 @@ app.delete("/edit_voter/:id", async (req, res) => {
 app.listen(port, ()=>{
     console.log(`Server started on Port ${port} Successfully......`);
 });
-
-

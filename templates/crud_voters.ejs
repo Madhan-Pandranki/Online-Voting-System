@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashBoard</title>
+    <title>Admin DashBoard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../CSS/crud_positions.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,20 +31,20 @@
 
             <table id="customers">
                 <tr>
-                    <th>ID</th>
+                    <!-- <th>ID</th> -->
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Password</th>
+                    <!-- <th>Password</th> -->
                     <th>Mobile No</th>
                     <th>Address</th>
                     <th>Actions</th>
                 </tr>
                 <%voters.forEach((i)=>{%>
                     <tr>
-                        <td><%= i._id %></td>
+                        <!-- <td><%#= i._id %></td> -->
                         <td><%= i.name %></td>
                         <td><%= i.Email %></td>
-                        <td><%= i.password %></td>
+                        <!-- <td><%#= i.password %></td> -->
                         <td><%= i.Mobile_no %></td>
                         <td><%= i.Address %></td>
                         <td style="display: flex;justify-content: center;">
