@@ -384,8 +384,10 @@ async function checkpwd (password, userpassword) {
 }
 app.post("/login", async (req,res)=>{
     try {
-        const admin = await Signup.findOne({Email : "qwerty@gmail.com"});
-        const check = await Signup.findOne({Email : req.body.Email});
+        const admin = await Signup.findOne({ Email: "qwerty@gmail.com" });
+        console.log(admin);
+        const check = await Signup.findOne({ Email: req.body.Email });
+        console.log(check);
         if(check)
         {
             // const encryptedpwd = check.password;
@@ -398,7 +400,7 @@ app.post("/login", async (req,res)=>{
             //     decryptedpwd += decipherpwd.final("utf-8");
             //     console.log(decryptedpwd);
             
-            if(check.Email == admin.Email && admin.password == req.body.password)
+            if(check.Email == admin.Email && await checkpwd(req.body.password,admin.password))
             {
                 // res.send("Admin Dashboard");
                 adminjson = admin;
